@@ -7,3 +7,4 @@ Node.js
 # Extra info
 This is heavily commented code so you know a lot of what's going on,
 the least of what I could do with what little I have in this tutorial at the moment.
+Discord server for the bot - https://discord.gg/Uhvws5M
