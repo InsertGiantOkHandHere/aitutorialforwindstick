@@ -117,4 +117,4 @@ setTimeout(easyaicheck, ai_easychecktime) //starting the timer with the amount o
 //discord server for the bot is: https://discord.gg/Uhvws5M
 //EXTRA NOTES: If you play the bot, you could probably easily make your ai do more than just buy pps, such as the chest, or ws!click command
 //rubies are made every 15 mins
-//here is the full score formula so far - userData.submitscore = Math.round(userData.points + (userData.rubies * 3500) + (userData.pps * 3750 * 3 + userData.pps * userData.pps) + (userData.prestigebonus * 10000) + (userData.prestiges * 100000))
+//here is the full score formula so far - userData.submitscore = Math.round(userData.points + (userData.rubies * 3500) + (userData.pps * 3750 * 3 + userData.pps * userData.pps) + (userData.prestigebonus * 10000) + (userData.prestiges * 100000)) just turn all of the userData vars into your bot vars
