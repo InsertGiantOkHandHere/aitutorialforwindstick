@@ -13,8 +13,6 @@ var top3bonus = 0 //all these variables are here just to make your life easier, 
 //change these variable names according to what you want your ai to be called (This bot's name is ai_easy if ya can't tell)
 var ai_easypoints = 0
 var ai_easypps = 1
-var ai_easyenergy = 0
-var ai_easymaxenergy = 30
 var ai_easyoneppscost = 250 //don't change this outside of the variable names
 var ai_easyscore = 0 //don't change this outside of the variable names
 var ai_easybuypps = 0 //don't change this outside of the variable names
@@ -71,6 +69,7 @@ function aipoips() {
 function easyaicheck() { //this is the most important, how the ai acts (very limited for now) feel free to change anything, but I might ask you to change some stuff
     var ai_easybuypps = Math.floor(Math.random() * 10 + 1)  //making the variable ai_easybuypps with a random number between 1 and 11
     console.log(`${ai_easybuypps}`)
+    if(ai_easypoints >= ai_easyoneppscost){ //if the ai has enough points to buy pps
     var breaktime = Math.floor(Math.random() * ai_easyactiveness + 1) //has a chance that basically means, the less activeness the bot has, the higher the chance it will go on break
     if(breaktime == 1){//only thing to not change (unless you make an alternative for it)
         console.log('Easy ai has just went on break!') //tells me through console that the bot has turned into break mode
@@ -79,7 +78,6 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
     }else{if(ai_easyactiveness > 1){ //if the activeness of the bot is more than 1, decrease it's activeness by 1, try not to change this too much if you do
         ai_easyactiveness--; //decreasing by 1
     }
-    if(ai_easypoints >= ai_easyoneppscost){ //if the ai has enough points to buy pps
     if(ai_easybuypps == 3 || ai_easybuypps == 8){ //remember the variable that is at the top of this function? if it were to equal one of these numbers, it would continue to the next steps
         var ai_easybuyppsamount = Math.floor(Math.random() * 3 +1) //picks a random number of pps to buy, between 1 and 3
         if(ai_easypoints >= ai_easyoneppscost && ai_easybuyppsamount > 0){ //if the ai has enough points to buy pps AND the variable set above, is greater than 0
