@@ -2,6 +2,10 @@
 The bot works like an idle game, and there is an ai I made for it.
 I was like "Why not let other people make their own ai if they wanted to, that'd be pretty cool"
 And so I made this.
+# Rules
+The bot can not have unfair advantages (Startup points, decreased prices, etc.)      
+Variable names must be changed to prevent a lot of trouble in the code     
+The bot must have a break mode
 # Requires for debugging
 Node.js
 # Extra info
