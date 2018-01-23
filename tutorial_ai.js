@@ -67,11 +67,19 @@ function aipoips() {
     }
 }
 function easyaicheck() { //this is the most important, how the ai acts (very limited for now) feel free to change anything, but I might ask you to change some stuff
+    if(ai_easyisonbreak == true){
+        ai_easychecktime = 15000        
+        ai_easyisonbreak = false
+    }
     var ai_easybuypps = Math.floor(Math.random() * 10 + 1)  //making the variable ai_easybuypps with a random number between 1 and 11
     console.log(`${ai_easybuypps}`)
-    if(ai_easypoints >= ai_easyoneppscost){ //if the ai has enough points to buy pps
+    if(ai_easypoints >= ai_easyoneppscost){ //if the ai has enough points to buy pps        
     var breaktime = Math.floor(Math.random() * ai_easyactiveness + 1) //has a chance that basically means, the less activeness the bot has, the higher the chance it will go on break
     if(breaktime == 1){//only thing to not change (unless you make an alternative for it)
+        ai_easyisonbreak = true
+        easyailog3 = easyailog2 //setting all the logs (don't change this outside of the variable names)
+        easyailog2 = easyailog1
+        easyailog1 = `Easy ai is taking a break. 💤`
         console.log('Easy ai has just went on break!') //tells me through console that the bot has turned into break mode
         ai_easyactiveness = 40 //sets the activeness back to it's original variable
         ai_easychecktime = 1800000 //turns the timer for this function really high (30 minutes in this case), simulating the bot taking a break from the game
@@ -81,8 +89,8 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
     if(ai_easybuypps == 3 || ai_easybuypps == 8){ //remember the variable that is at the top of this function? if it were to equal one of these numbers, it would continue to the next steps
         var ai_easybuyppsamount = Math.floor(Math.random() * 3 +1) //picks a random number of pps to buy, between 1 and 3
         if(ai_easypoints >= ai_easyoneppscost && ai_easybuyppsamount > 0){ //if the ai has enough points to buy pps AND the variable set above, is greater than 0
-            easyailog2 = easyailog3 //setting all the logs (don't change this outside of the variable names)
-            easyailog1 = easyailog2
+            easyailog3 = easyailog2 //setting all the logs (don't change this outside of the variable names)
+            easyailog2 = easyailog1
             easyailog1 = `Easy ai has bought ${ai_easybuyppsamount} pps!` //what it says the bot did, feel free to change this, but have it still be informative enough to understand pls xd
             checkbuypps() //do the function we made (below)
         }
@@ -115,4 +123,4 @@ setTimeout(easyaicheck, ai_easychecktime) //starting the timer with the amount o
 //discord server for the bot is: https://discord.gg/Uhvws5M
 //EXTRA NOTES: If you play the bot, you could probably easily make your ai do more than just buy pps, such as the chest, or ws!click command
 //rubies are made every 15 mins
-//here is the full score formula so far - userData.submitscore = Math.round(userData.points + (userData.rubies * 3500) + (userData.pps * 3750 * 3 + userData.pps * userData.pps) + (userData.prestigebonus * 10000) + (userData.prestiges * 100000)) just turn all of the userData vars into your bot vars
+//here is the full score formula so far - userData.submitscore = Math.round(userData.points + (userData.rubies * 3500) + (userData.pps * 3750 * 3 + userData.pps * userData.pps) + (userData.prestigebonus * 10000) + (userData.prestiges * 100000))
