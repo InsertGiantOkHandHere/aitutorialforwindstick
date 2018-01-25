@@ -137,6 +137,7 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
 }
     ai_easyoneppscost = Math.floor(ai_easyoneppscost) //rounding the cost to the lowest whole number
     }
+        var ai_easybuypps = Math.floor(Math.random() * 10 + 1)
     console.log(`${ai_easybuypps}`)
     if(ai_easybuypps == 3 | 5 | 7 | 10){
         setTimeout(easywsleaderboard, 2000)
