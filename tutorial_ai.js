@@ -17,10 +17,10 @@ var ai_easyoneppscost = 250 //don't change this outside of the variable names
 var ai_easyscore = 0 //don't change this outside of the variable names
 var ai_easybuypps = 0 //don't change this outside of the variable names
 var ai_easybuyppsamount = 0 //don't change this outside of the variable names
-var ai_easychecktime = 15000 //how long it takes before it does the function easyaicheck
+var ai_easychecktime = 45000 //how long it takes before it does the function easyaicheck
 var ai_easyname = "pls (ai_easy)" //name that pops up on the leaderboard (If they can manage to make it to there)
 var ai_easyisonbreak = false //saying whether the bot is in "break mode" or not
-var ai_easyactiveness = 40  //'activeness' the ai has, which decreases as time goes on till it takes a break
+var ai_easyactiveness = 25  //'activeness' the ai has, which decreases as time goes on till it takes a break
 function aipoips() {
     ai_easypoints += ai_easypps //don't change this outside of the variable names
     //resets every 1 second
@@ -66,12 +66,41 @@ function aipoips() {
 }
     }
 }
+function easywsleaderboard() { //bot using ws!leaderboard command
+    client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy: ws!leaderboard\nThese are the top 3 global players:\n#1 Name: ${top1name} Score: ${top1} Bonus: ${top1bonus} (ws!bonusclaim)\n#2 Name: ${top2name} Score: ${top2} Bonus: ${top2bonus} (ws!bonusclaim)\n#3 Name: ${top3name} Score: ${top3} Bonus: ${top3bonus} (ws!bonusclaim)`)   
+    if(id1 == -1){
+        ai_easyactiveness + 2 //gains 2 activeness if the ai is #1
+        topcheck = top2 * 1.10
+        if(topcheck > top1 || top1bonus >= top1 / 0.015){//if bot's bonus is 1.5% of it's score (top whatever # it is) use ws!bonusclaim OR if leaderboard person below them is about 10% below their score
+            ai_easypoints += top1bonus            
+            client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy: ws!bonusclaim\nai_easy, You just claimed ${top1bonus} points and you have ${ai_easypoints} points`)//messaging the #ai-playing channel           
+        top1bonus = 0
+        }
+    }
+    if(id2 == -1){
+        ai_easyactiveness++; //gains 1 activeness if the ai is #2
+        topcheck = top3 * 1.10
+        if(topcheck > top2 || top2bonus >= top2 / 0.015){ //if bot's bonus is 1.5% of it's score (top whatever # it is) use ws!bonusclaim OR if leaderboard person below them is about 10% below their score
+            ai_easypoints += top2bonus            
+            client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy: ws!bonusclaim\nai_easy, You just claimed ${top2bonus} points and you have ${ai_easypoints} points`)//messaging the #ai-playing channel      
+        top2bonus = 0
+        }
+    }
+    if(id3 == -1){
+        ai_easyactiveness++; //gains 1 activeness if the ai is #3
+        if(top3bonus >= top3 / 0.015){ //if bot's bonus is 1.5% of it's score (top whatever # it is) use ws!bonusclaim
+            ai_easypoints += top3bonus            
+            client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy: ws!bonusclaim\nai_easy, You just claimed ${top3bonus} points and you have ${ai_easypoints} points`)//messaging the #ai-playing channel                 
+            top3bonus = 0
+        }
+    }
+}
 function easyaicheck() { //this is the most important, how the ai acts (very limited for now) feel free to change anything, but I might ask you to change some stuff
     if(ai_easyisonbreak == true){
-        ai_easychecktime = 15000        
+        ai_easychecktime = 45000        
         ai_easyisonbreak = false
     }
-    var ai_easybuypps = Math.floor(Math.random() * 10 + 1)  //making the variable ai_easybuypps with a random number between 1 and 11
+    var ai_easybuypps = Math.floor(Math.random() * 10 + 1)  //making the variable ai_easybuypps with a random number between 1 and 10
     console.log(`${ai_easybuypps}`)
     if(ai_easypoints >= ai_easyoneppscost){ //if the ai has enough points to buy pps        
     var breaktime = Math.floor(Math.random() * ai_easyactiveness + 1) //has a chance that basically means, the less activeness the bot has, the higher the chance it will go on break
@@ -80,8 +109,9 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
         easyailog3 = easyailog2 //setting all the logs (don't change this outside of the variable names)
         easyailog2 = easyailog1
         easyailog1 = `Easy ai is taking a break. 💤`
+        client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy is now on break with ${ai_easypoints} points and ${ai_easypps} pps`)//messaging the #ai-playing channel          
         console.log('Easy ai has just went on break!') //tells me through console that the bot has turned into break mode
-        ai_easyactiveness = 40 //sets the activeness back to it's original variable
+        ai_easyactiveness = 25 //sets the activeness back to it's original variable
         ai_easychecktime = 1800000 //turns the timer for this function really high (30 minutes in this case), simulating the bot taking a break from the game
     }else{if(ai_easyactiveness > 1){ //if the activeness of the bot is more than 1, decrease it's activeness by 1, try not to change this too much if you do
         ai_easyactiveness--; //decreasing by 1
@@ -91,7 +121,8 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
         if(ai_easypoints >= ai_easyoneppscost && ai_easybuyppsamount > 0){ //if the ai has enough points to buy pps AND the variable set above, is greater than 0
             easyailog3 = easyailog2 //setting all the logs (don't change this outside of the variable names)
             easyailog2 = easyailog1
-            easyailog1 = `Easy ai has bought ${ai_easybuyppsamount} pps!` //what it says the bot did, feel free to change this, but have it still be informative enough to understand pls xd
+            easyailog1 = `Easy ai has bought ${ai_easybuyppsamount} pps!`
+            client.guilds.get("397209764485922828").channels.get('405631564827983882').send(`ai_easy: ws!buypps ${ai_easybuyppsamount}`)//what it says the bot did, feel free to change this, but have it still be informative enough to understand pls xd
             checkbuypps() //do the function we made (below)
         }
         function checkbuypps (){ //defining the function 'checkbuypps'
@@ -106,12 +137,16 @@ function easyaicheck() { //this is the most important, how the ai acts (very lim
 }
     ai_easyoneppscost = Math.floor(ai_easyoneppscost) //rounding the cost to the lowest whole number
     }
+    console.log(`${ai_easybuypps}`)
+    if(ai_easybuypps == 3 | 5 | 7 | 10){
+        setTimeout(easywsleaderboard, 2000)
+    }
 }
 }
 }
-var subtracttimer = Math.floor(Math.random() * -500)
-var addtimer = Math.floor(Math.random() * 500)
-if(ai_easychecktime > 3000 && ai_easychecktime < 75000){
+var subtracttimer = Math.floor(Math.random() * -800)
+var addtimer = Math.floor(Math.random() * 1000)
+if(ai_easychecktime > 10000 && ai_easychecktime < 90000){
     ai_easychecktime += subtracttimer + addtimer //changes the amount of time of every loop slightly
 }
 console.log(`Easy ai's stats are ${ai_easypoints} points and ${ai_easypps} pps\npps costs ${ai_easyoneppscost} for easy ai`)//console logs stats, good for debugging and seeing how your ai acts
